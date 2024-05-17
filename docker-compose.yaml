@@ -40,19 +40,19 @@ services:
       #    - GK_PWD=${PWD}
          - NODE_PORT=${NODE_PORT}
 
-   spreact_mongo_label:
-      container_name: spreact_mongo_container
-      image: spreact_mongo_image
-      build:
-         context: ./services/mongodb
-      env_file:
-         - .private/mongo.env
-      volumes: 
-         - spreact_mongo_volume:/data/db
-      networks:
-         - spreact_main_network
-      # ports:
-      #    - 27017:${MONGO_PORT}
+   # spreact__mongolabel:
+   #    container_name: spreact_mongo_container
+   #    image: spreact_mongo_image
+   #    build:
+   #       context: ./services/mongodb
+   #    env_file:
+   #       - .private/mongo.env
+   #    volumes: 
+   #       - spreact_mongo_volume:/data/db
+   #    networks:
+   #       - spreact_main_network
+   #    # ports:
+   #    #    - 27017:${MONGO_PORT}
 
    spreact_spring_label:
       image: spreact_spring_image
@@ -66,7 +66,8 @@ services:
       volumes: 
          - ./shared/tomcat-logs:/tomcat/logs
          - ./shared/spring-logs:/spring/logs
+         - ./shared/h2:/data
       networks:
          - spreact_main_network
-      depends_on:
-         - spreact_mongo_label
+      # depends_on:
+      #    - spreact_mongo_label
