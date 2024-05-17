@@ -26,6 +26,7 @@ public class WebSecurityConfig {
 
    @Autowired
    private UserDetailsServiceImpl userDetailsService;
+   
 
    @Autowired
    private AuthEntryPointJwt unauthorizedHandler;
@@ -60,6 +61,7 @@ public class WebSecurityConfig {
    public DaoAuthenticationProvider authenticationProvider(){
       DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
       authProvider.setUserDetailsService(userDetailsService);
+
       // If we don’t specify, it will use plain text.
       authProvider.setPasswordEncoder(passwordEncoder());
 
@@ -79,7 +81,7 @@ public class WebSecurityConfig {
       httpSecurity
          .csrf(csrf -> csrf.disable())
          // Let me get this straight: ANY exception is handled as unauthenticated?
-         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizeHandler))
+         .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          .authorizeHttpRequests(auth -> auth
          // .requestMatchers("/api/data**").permitAll()

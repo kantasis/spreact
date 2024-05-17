@@ -51,13 +51,15 @@ public class UserModel {
    @Size(max = 120)
    private String password;
 
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(
       name = "userRoles_tbl", 
       joinColumns = @JoinColumn(name = "user_id"),
       inverseJoinColumns = @JoinColumn(name = "role_id")
    )
-  private Set<RoleModel> roles = new HashSet<>();
+   
+   
+   private Set<RoleModel> roles = new HashSet<>();
 
    public UserModel(String username, String email, String password) {
       this.username = username;
