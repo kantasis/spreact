@@ -6,20 +6,8 @@ https://www.bezkoder.com/react-spring-boot-mongodb/
 
 # Run the init script
 docker exec -it \
-   deli_db_container \
-   psql \
-      -h localhost \
-      -U postgres \
-      -f init.sql
-
-# Run the import script
-docker exec -it \
-   deli_db_container \
-   psql \
-      -h localhost \
-      -U postgres \
-      -d deli_db \
-      -f import.sql
+   spreact_spring_container \
+   bash
 
 
 ```
