@@ -2,7 +2,8 @@ version: "3"
 
 volumes:
    spreact_grafana_volume: {}
-   spreact_mongo_volume: {}
+   # spreact_mongo_volume: {}
+   spreact_h2_volume: {}
 
 networks:
    spreact_main_network: {}
@@ -29,30 +30,24 @@ services:
       build: ./services/ubuntu
       env_file:
          - .private/ubuntu.env
-      # ports:
-      #    - 8000:8000
-      #    - 5173:5173
       volumes:
          - ./app:/app
       networks:
          - spreact_main_network
-      environment:
-      #    - GK_PWD=${PWD}
-         - NODE_PORT=${NODE_PORT}
 
-   spreact_mongo_label:
-      container_name: spreact_mongo_container
-      image: spreact_mongo_image
-      build:
-         context: ./services/mongodb
-      env_file:
-         - .private/mongo.env
-      volumes: 
-         - spreact_mongo_volume:/data/db
-      networks:
-         - spreact_main_network
-      # ports:
-      #    - 27017:${MONGO_PORT}
+   # spreact_mongo_label:
+   #    container_name: spreact_mongo_container
+   #    image: spreact_mongo_image
+   #    build:
+   #       context: ./services/mongodb
+   #    env_file:
+   #       - .private/mongo.env
+   #    volumes: 
+   #       - spreact_mongo_volume:/data/db
+   #    networks:
+   #       - spreact_main_network
+   #    # ports:
+   #    #    - 27017:${MONGO_PORT}
 
    spreact_spring_label:
       image: spreact_spring_image
@@ -66,7 +61,8 @@ services:
       volumes: 
          - ./shared/tomcat-logs:/tomcat/logs
          - ./shared/spring-logs:/spring/logs
+         - spreact_h2_volume:/data
       networks:
          - spreact_main_network
-      depends_on:
-         - spreact_mongo_label
+      # depends_on:
+      #    - spreact_mongo_label
