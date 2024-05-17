@@ -12,24 +12,21 @@ import { useState } from "react";
 // });
 
 function Spring_Data(){
-
-   // axios.get('http://localhost:8081/hello')
-   // .then(function (response) {
-   //    console.log(response.data);
-   // });
-
+   
    const [springResponse_str, setSpringResponse] = useState("No response yet");
+   // TODO: This should use HOST_SPRING_PORT
+   const url = "http://localhost:8081/hello"
 
-   fetch(
-      "http://localhost:8081/hello"
-   ).then( response => {
-      // console.log("Response: " + typeof(response))
-      // console.log("text: " + typeof(response.text()))
-      return response.text()
-   }).then( text => {
-      console.log("text: " + text)
-      setSpringResponse(text);
-   })
+   axios.get(url)
+   .then( (response) => {
+
+      console.log(response);
+      // response.data
+      // response.headers
+      // response.status
+
+      setSpringResponse(response.data)
+   });
 
    // const { data } = await axios.get(url);
 
