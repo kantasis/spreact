@@ -18,17 +18,21 @@ docker exec -it \
 Initialization of a react project
 ```bash
 docker exec -it \
-   deli_ubuntu_container \
+   spreact_ubuntu_container \
    bash
 
 cd /app
-npm create vite@latest deli_react_app -- --template react-ts
-cd deli_react_app
+npm create vite@latest spreact_react_app -- --template react-ts
+cd spreact_react_app
 npm install bootstrap
+npm install axios
+npm install @types/react-router-dom
+
+
 npm install react-auth-kit
 npm install @fortawesome/fontawesome-svg-core @fortawesome/free-solid-svg-icons @fortawesome/react-fontawesome@latest
 
-
+sudo chown george:george -R *
 
 npm install
 

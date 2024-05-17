@@ -9,36 +9,36 @@ networks:
 
 services:
 
-   # spreact_node_label:
-   #    image: spreact_node_image
-   #    container_name: spreact_node_container
-   #    build:
-   #       context: ./services/node
-   #    ports:
-   #       - ${HOST_NODE_PORT}:${NODE_PORT}
-   #    env_file:
-   #       - .private/node.env
-   #    volumes: 
-   #       - ./app:/app
-   #    networks:
-   #       - spreact_main_network
+   spreact_node_label:
+      image: spreact_node_image
+      container_name: spreact_node_container
+      build:
+         context: ./services/node
+      ports:
+         - ${HOST_NODE_PORT}:${NODE_PORT}
+      env_file:
+         - .private/node.env
+      volumes: 
+         - ./app:/app
+      networks:
+         - spreact_main_network
 
-   # spreact_ubuntu_label:
-   #    image: spreact_ubuntu_image
-   #    container_name: spreact_ubuntu_container
-   #    build: ./services/ubuntu
-   #    env_file:
-   #       - .private/ubuntu.env
-   #    # ports:
-   #    #    - 8000:8000
-   #    #    - 5173:5173
-   #    volumes:
-   #       - ./app:/app
-   #    networks:
-   #       - spreact_main_network
-   #    # environment:
-   #    #    - GK_PWD=${PWD}
-   #    #    - NODE_PORT=${NODE_PORT}
+   spreact_ubuntu_label:
+      image: spreact_ubuntu_image
+      container_name: spreact_ubuntu_container
+      build: ./services/ubuntu
+      env_file:
+         - .private/ubuntu.env
+      # ports:
+      #    - 8000:8000
+      #    - 5173:5173
+      volumes:
+         - ./app:/app
+      networks:
+         - spreact_main_network
+      environment:
+      #    - GK_PWD=${PWD}
+         - NODE_PORT=${NODE_PORT}
 
    spreact_mongo_label:
       container_name: spreact_mongo_container
