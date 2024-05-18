@@ -2,6 +2,7 @@ package com.tutorials.spring_react.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,12 +23,12 @@ public class RoleModel {
    @GeneratedValue(strategy=GenerationType.IDENTITY)
    private Long id;
 
-   @Enumerated
+   @Enumerated(EnumType.STRING)
    @Column(length=20)
-   private ERole name;
+   private ERole label;
 
-   public RoleModel(ERole name) {
-      this.name = name;
+   public RoleModel(ERole role_name) {
+      this.label = role_name;
    }
 
 }

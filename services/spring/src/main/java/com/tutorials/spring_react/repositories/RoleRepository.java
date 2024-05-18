@@ -11,6 +11,6 @@ import com.tutorials.spring_react.models.RoleModel;
 @Repository
 public interface RoleRepository extends JpaRepository<RoleModel, Long> {
 
-   Optional<RoleModel> findByName(ERole Rolename);
+   Optional<RoleModel> findByLabel(ERole label);
 
 }

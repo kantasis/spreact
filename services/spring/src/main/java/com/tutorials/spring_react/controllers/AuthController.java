@@ -133,7 +133,7 @@ public class AuthController {
 
       if (roles_strLst==null){
          RoleModel userRole = roleRepository
-            .findByName(ERole.ROLE_USER)
+            .findByLabel(ERole.ROLE_USER)
             .orElseThrow( () ->
                new RuntimeException("Error: Role is not found")
             )
@@ -152,7 +152,7 @@ public class AuthController {
                   roleEnum = ERole.ROLE_USER;
 
                RoleModel roleModel = roleRepository
-                  .findByName(roleEnum)
+                  .findByLabel(roleEnum)
                   .orElseThrow( () -> new RuntimeException("Error: Role is not found") );
 
                   roles_lst.add(roleModel);

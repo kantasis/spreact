@@ -23,7 +23,7 @@ import java.util.Set;
 // Class annotation for a row/document of a db
 @Entity
 @Table(
-   name="user_tbl",
+   name="users_tbl",
    uniqueConstraints = {
       @UniqueConstraint(columnNames = "username"),
       @UniqueConstraint(columnNames = "email")

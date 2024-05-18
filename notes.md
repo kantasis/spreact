@@ -12,6 +12,22 @@ docker exec -it \
 
 ```
 
+
+```sql
+INSERT INTO ROLES_TBL(name) VALUES('ROLE_USER');
+INSERT INTO ROLES_TBL(name) VALUES('ROLE_MODERATOR');
+INSERT INTO ROLES_TBL(name) VALUES('ROLE_ADMIN');
+
+
+show columns from roles_tbl;
+INSERT INTO ROLES_TBL("name") VALUES('ROLE_USER');
+INSERT INTO "ROLES_TBL" (id) VALUES(1);
+select * from ROLES_TBL;
+INSERT INTO ROLES_TBL(role_name) VALUES('ROLE_USER');
+
+ALTER TABLE example_table DROP CONSTRAINT constraint_name
+```
+
 ## React
 
 Initialization of a react project
