@@ -34,6 +34,8 @@ services:
          - ./app:/app
       networks:
          - spreact_main_network
+      ports:
+         - 8083:8083
 
    # spreact_mongo_label:
    #    container_name: spreact_mongo_container
@@ -56,6 +58,7 @@ services:
          context: ./services/spring
       ports:
          - ${HOST_SPRING_PORT}:${SPRING_PORT}
+         - 8082:8082
       env_file:
          - .private/spring.env
       volumes: 

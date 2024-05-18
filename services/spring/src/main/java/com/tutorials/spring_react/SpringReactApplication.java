@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class SpringReactApplication {
 
    public static void main(String[] args) {
+      System.out.println("--- GK> Starting the application");
       SpringApplication.run(SpringReactApplication.class, args);
+      System.out.println("--- GK> Started the application");
+
    }
 
    @RestController

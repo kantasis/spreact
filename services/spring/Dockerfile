@@ -7,10 +7,13 @@
 
 # ENTRYPOINT ["java","-jar","/app.jar"]
 
-FROM maven:3.8.5-openjdk-17
+# ----
+
+# FROM maven:3.8.5-openjdk-17
+FROM eclipse-temurin:17-jdk-alpine
 
 WORKDIR /sprint_application
 COPY . .
-RUN mvn clean install
+RUN ./mvnw clean install
 
-CMD mvn spring-boot:run
+CMD ./mvnw spring-boot:run

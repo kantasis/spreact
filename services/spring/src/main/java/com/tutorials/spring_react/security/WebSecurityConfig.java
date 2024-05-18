@@ -25,7 +25,7 @@ public class WebSecurityConfig {
    private String h2ConsolePath;
 
    @Autowired
-   private UserDetailsServiceImpl userDetailsService;
+   UserDetailsServiceImpl userDetailsService;
    
 
    @Autowired
@@ -36,7 +36,6 @@ public class WebSecurityConfig {
       return new AuthTokenFilter();
    }
 
-   
    // // Not implemented in the datalake
    // @Override
    // public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -74,7 +73,6 @@ public class WebSecurityConfig {
       return authConfig.getAuthenticationManager();
    }
 
-
    @Bean
    // TODO: Rename this function to a verb
    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
@@ -84,22 +82,22 @@ public class WebSecurityConfig {
          .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
          .authorizeHttpRequests(auth -> auth
-         // .requestMatchers("/api/data**").permitAll()
-            // Allow the auth endpoints to be public (duh!)
-            .requestMatchers("/api/auth/**").permitAll()
+         // // .requestMatchers("/api/data**").permitAll()
+         //    // Allow the auth endpoints to be public (duh!)
+         //    .requestMatchers("/api/auth/**").permitAll()
 
-            // This is to test the Authorization (eventually)
-            .requestMatchers("/api/content/**").permitAll()
+         //    // This is to test the Authorization (eventually)
+         //    .requestMatchers("/api/content/**").permitAll()
 
-            // This is to test the general availability of the system
-            .requestMatchers("/hello").permitAll()
+         //    // This is to test the general availability of the system
+         //    .requestMatchers("/hello").permitAll()
 
-            // Allow H2 console endpoints
-            .requestMatchers(h2ConsolePath + "/**").permitAll()
+         //    // Allow H2 console endpoints
+         //    .requestMatchers(h2ConsolePath + "/**").permitAll()
 
-            // Swagger endpoints. Let's keep them here
-            .requestMatchers("/v3/api-docs/**").permitAll()
-            .requestMatchers("/swagger-ui/**").permitAll()
+         //    // Swagger endpoints. Let's keep them here
+         //    .requestMatchers("/v3/api-docs/**").permitAll()
+         //    .requestMatchers("/swagger-ui/**").permitAll()
 
             .anyRequest().authenticated()
             // .anyRequest().permitAll()
@@ -121,6 +119,5 @@ public class WebSecurityConfig {
       
       return httpSecurity.build();
    }
-
 
 }
