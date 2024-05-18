@@ -62,8 +62,9 @@ services:
       env_file:
          - .private/spring.env
       volumes: 
-         - ./shared/tomcat-logs:/tomcat/logs
+         - ./shared/tomcat-logs:/spring_application/tomcat/logs
          - ./shared/spring-logs:/spring/logs
+         # - ./shared/application-logs:/spring_application
          - spreact_h2_volume:/data
       networks:
          - spreact_main_network

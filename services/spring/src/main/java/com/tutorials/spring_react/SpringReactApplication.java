@@ -16,16 +16,4 @@ public class SpringReactApplication {
 
    }
 
-   @RestController
-   class HelloController {
-
-      @GetMapping("/hello")
-      // TODO: The port should be referenced here: HOST_NODE_PORT
-      @CrossOrigin(origins = "http://localhost:9080")
-      public String hello() {
-         System.out.println("--- GK> Someone said hi!");
-         return "Hello, Spring Boot!!!!";
-      }
-   }
-
 }

@@ -12,7 +12,7 @@
 # FROM maven:3.8.5-openjdk-17
 FROM eclipse-temurin:17-jdk-alpine
 
-WORKDIR /sprint_application
+WORKDIR /spring_application
 COPY . .
 RUN ./mvnw clean install
 

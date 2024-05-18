@@ -99,8 +99,8 @@ public class WebSecurityConfig {
          //    .requestMatchers("/v3/api-docs/**").permitAll()
          //    .requestMatchers("/swagger-ui/**").permitAll()
 
-            .anyRequest().authenticated()
-            // .anyRequest().permitAll()
+            // .anyRequest().authenticated()
+            .anyRequest().permitAll()
          )
       ;
 
