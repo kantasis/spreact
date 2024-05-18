@@ -1,22 +1,22 @@
 package com.tutorials.spring_react.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOError;
-import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthTokenFilter extends OncePerRequestFilter{
 
@@ -36,10 +36,10 @@ public class AuthTokenFilter extends OncePerRequestFilter{
    ) throws ServletException, IOException{
       try {
          String jwt = parseJwt(request);
-         if (jwt == null)
+         if (jwt == null || jwtUtils.validateJwtToken(jwt)){
+            filterChain.doFilter(request, response);
             return;
-         if (jwtUtils.validateJwtToken(jwt))
-            return;
+         }
 
          // TODO: Fix this dumb name
          String username = jwtUtils.getUsernameFromJwtToken(jwt);
@@ -67,6 +67,7 @@ public class AuthTokenFilter extends OncePerRequestFilter{
 
    // Dumbest use of a function I've seen here!
    private String parseJwt(HttpServletRequest request){
+
       String jwt = jwtUtils.getJwtFromCookies(request);
       return jwt;
    }
