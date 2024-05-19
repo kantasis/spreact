@@ -20,7 +20,7 @@ public class ContentController {
    }
 
    @GetMapping("/user")
-   @PreAuthorize("harRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+   @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
    public String userContent(){
       return "User Content";
    }
