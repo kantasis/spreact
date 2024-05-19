@@ -1,5 +1,7 @@
 package com.tutorials.spring_react.controllers;
 
+import java.util.Date;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +16,7 @@ public class TestController {
    @GetMapping("/hello")
    public String hello() {
       System.out.println("--- GK> Someone said hi!");
-      return "Hello, Spring Boot!!!!";
+      return "Hello, Spring Boot!!!! "+new Date();
    }
 
 }
