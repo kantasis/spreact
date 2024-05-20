@@ -16,7 +16,7 @@ services:
       ports:
          - ${HOST_NODE_PORT}:${NODE_PORT}
       env_file:
-         - .private/node.env
+         - ./services/node/.env
       volumes: 
          - ./app-react:/app-react
       networks:
@@ -27,7 +27,7 @@ services:
       container_name: spreact_ubuntu_container
       build: ./services/ubuntu
       env_file:
-         - .private/ubuntu.env
+         - ./services/ubuntu/.env
       volumes:
          - ./app-react:/app-react
       networks:
@@ -41,7 +41,7 @@ services:
    #    build:
    #       context: ./services/mongodb
    #    env_file:
-   #       - .private/mongo.env
+   #       - ./services/mongodb/.env
    #    volumes: 
    #       - spreact_mongo_volume:/data/db
    #    networks:
@@ -56,9 +56,8 @@ services:
          context: ./services/spring
       ports:
          - ${HOST_SPRING_PORT}:${SPRING_PORT}
-         - 8082:8082
       env_file:
-         - .private/spring.env
+         - ./services/spring/.env
       volumes: 
          - ./shared/tomcat-logs:/spring_application/tomcat/logs
          - ./shared/spring-logs:/spring/logs
