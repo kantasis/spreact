@@ -2,7 +2,7 @@ shared/
 .env
 .private/
 .vscode/
-services/spring/demo/target/
-services/spring/demo/myapp.log
-services/spring/demo/*.log.*.gz
+app-spring/demo/target/
+app-spring/demo/myapp.log
+app-spring/demo/*.log.*.gz
 logs/

@@ -120,6 +120,13 @@ https://www.bezkoder.com/spring-boot-security-login-jwt/
 # General
 
 ```bash
+docker exec -it \
+   spreact_spring_container \
+   bash
+
+docker exec -it \
+   spreact_ubuntu_container \
+   bash
 
 docker restart spreact_spring_container 
 docker logs --follow spreact_spring_container 
