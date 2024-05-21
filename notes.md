@@ -1,6 +1,7 @@
 https://www.bezkoder.com/react-spring-boot-mongodb/
 # TODO:
-
+Check useEffect
+Check useRef
 # Initialize deployment
 ```bash
 
@@ -97,9 +98,15 @@ docker exec -it \
 cd /app
 npm create vite@latest spreact_react_app -- --template react-ts
 cd spreact_react_app
+# Lovely bootstrap
 npm install bootstrap
+# Lib for requests
 npm install axios
 npm install @types/react-router-dom
+npm install react-router-dom
+npm install http-proxy-middleware
+# Library for form validation
+npm install react-validation validator
 
 
 npm install react-auth-kit

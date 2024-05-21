@@ -168,7 +168,7 @@ public class AuthController {
       ;
    }
 
-   @PostMapping("/signout")
+   @PostMapping("/logout")
    public ResponseEntity<?> logoutUser() {
       ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
       return ResponseEntity
