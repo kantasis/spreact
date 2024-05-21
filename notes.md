@@ -14,27 +14,29 @@ docker exec -it \
 
 
 ```sql
-INSERT INTO ROLES_TBL(name) VALUES('ROLE_USER');
-INSERT INTO ROLES_TBL(name) VALUES('ROLE_MODERATOR');
-INSERT INTO ROLES_TBL(name) VALUES('ROLE_ADMIN');
-
-
-show columns from roles_tbl;
-INSERT INTO ROLES_TBL("name") VALUES('ROLE_USER');
-INSERT INTO "ROLES_TBL" (id) VALUES(1);
-select * from ROLES_TBL;
-
 INSERT INTO ROLES_TBL(LABEL) VALUES('ROLE_USER');
 INSERT INTO ROLES_TBL(LABEL) VALUES('ROLE_MODERATOR');
 INSERT INTO ROLES_TBL(LABEL) VALUES('ROLE_ADMIN');
 
-ALTER TABLE example_table DROP CONSTRAINT constraint_name
-
-
 select * from ROLES_TBL;
 
+```
+
+register
+```json
+{
+   "username": "george",
+   "email": "asdf@asdf.com",
+   "password": "1234567",
+   "role": ["user"]
+}
 
 ```
+
+
+
+
+
 ##
 https://medium.com/@ak123aryan/how-and-where-you-can-use-preauthorize-annotation-springboot-048751193b6f
 This dude said that I can use @EnableMethodSecurity in the main class of my application
