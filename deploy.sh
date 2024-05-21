@@ -12,5 +12,8 @@ if [ -d "./app-spring" ]; then
    popd
 fi
 
-docker compose up --build -d 
-# --remove-orphans
+docker compose up \
+   --build \
+   -d 
+
+   # --remove-orphans \
