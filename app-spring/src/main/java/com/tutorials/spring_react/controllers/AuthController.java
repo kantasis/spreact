@@ -30,6 +30,7 @@ import com.tutorials.spring_react.repositories.RoleRepository;
 import com.tutorials.spring_react.repositories.UserRepository;
 import com.tutorials.spring_react.security.JwtUtils;
 import com.tutorials.spring_react.security.UserDetailsImpl;
+import com.tutorials.spring_react.security.payloads.JwtResponse;
 import com.tutorials.spring_react.security.payloads.LoginRequest;
 import com.tutorials.spring_react.security.payloads.MessageResponse;
 import com.tutorials.spring_react.security.payloads.SignupRequest;
@@ -66,6 +67,7 @@ public class AuthController {
       @RequestBody
       LoginRequest loginRequest
    ) {
+
       UsernamePasswordAuthenticationToken userpass = new UsernamePasswordAuthenticationToken(
          loginRequest.getUsername(), 
          loginRequest.getPassword()
@@ -74,9 +76,15 @@ public class AuthController {
       Authentication authentication = authenticationManager
          .authenticate(userpass);
 
-      SecurityContextHolder.getContext().setAuthentication(authentication);
+      SecurityContextHolder
+         .getContext()
+         .setAuthentication(authentication);
+      
+      String jwt = jwtUtils.generateJwtToken(authentication);
+      
       UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-      ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+      
+      // ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
       List<String> roles = userDetails
          .getAuthorities()
@@ -86,19 +94,31 @@ public class AuthController {
          )
          .collect(Collectors.toList());
 
-      UserInfoResponse userInfoResponse = new UserInfoResponse(
-         userDetails.getId(),
-         userDetails.getUsername(),
-         userDetails.getEmail(),
+      // UserInfoResponse userInfoResponse = new UserInfoResponse(
+      //    userDetails.getId(),
+      //    userDetails.getUsername(),
+      //    userDetails.getEmail(),
+      //    roles
+      // );
+
+      JwtResponse jwtResponse = new JwtResponse(
+         jwt, 
+         "Bearer",
+         userDetails.getId(), 
+         userDetails.getUsername(), 
+         userDetails.getEmail(), 
          roles
       );
 
       return ResponseEntity
-         .ok()
-         .header(
-            HttpHeaders.SET_COOKIE, jwtCookie.toString()
-         )
-         .body(userInfoResponse);
+         .ok(jwtResponse);
+
+      // return ResponseEntity
+      //    .ok()
+      //    .header(
+      //       HttpHeaders.SET_COOKIE, jwtCookie.toString()
+      //    )
+      //    .body(userInfoResponse);
    }
 
    @PostMapping("/register")
@@ -112,6 +132,7 @@ public class AuthController {
             .badRequest()
             .body(new MessageResponse("Error: Username is already taken!"))
          ;
+
       if (userRepository.existsByEmail(signupRequest.getEmail()))
          return ResponseEntity
             .badRequest()
@@ -168,19 +189,19 @@ public class AuthController {
       ;
    }
 
-   @PostMapping("/logout")
-   public ResponseEntity<?> logoutUser() {
-      ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
-      return ResponseEntity
-         .ok()
-         .header(
-            HttpHeaders.SET_COOKIE, 
-            cookie.toString()
-         )
-         .body(
-            new MessageResponse("You've been signed out")
-         )
-      ;
-   }
+   // @PostMapping("/logout")
+   // public ResponseEntity<?> logoutUser() {
+   //    ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+   //    return ResponseEntity
+   //       .ok()
+   //       .header(
+   //          HttpHeaders.SET_COOKIE, 
+   //          cookie.toString()
+   //       )
+   //       .body(
+   //          new MessageResponse("You've been signed out")
+   //       )
+   //    ;
+   // }
 
 }

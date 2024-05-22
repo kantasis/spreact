@@ -3,13 +3,11 @@ package com.tutorials.spring_react.security;
 import java.security.Key;
 import java.util.Date;
 
-import org.apache.catalina.connector.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.WebUtils;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -18,8 +16,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtUtils {
@@ -31,33 +27,24 @@ public class JwtUtils {
    @Value("${custom.app.jwtExpirationMs}")
    private int jwtExpirationMs;
 
-   @Value("${custom.app.jwtCookieName}")
-   private String jwtCookie;
+   public String generateJwtToken(Authentication authentication) {
 
-   public String getJwtFromCookies(HttpServletRequest request){
-      Cookie cookie = WebUtils.getCookie(request, jwtCookie);
-      if (cookie == null)
-         return null;
-      return cookie.getValue();
-   }
+      UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+      
+      Date todayDate = new Date();
+      Date expirationDate = new Date(todayDate.getTime() + jwtExpirationMs);
 
-   public ResponseCookie generateJwtCookie(UserDetailsImpl principal){
-      String jwt = generateTokenFromUsername(principal.getUsername());
-      ResponseCookie cookie = ResponseCookie
-         .from(jwtCookie, jwt)
-         .path("/api")
-         .maxAge(24 * 60 * 60)
-         .httpOnly(true)
-         .build();
-      return cookie;
-   }
-
-   public ResponseCookie getCleanJwtCookie(){
-      ResponseCookie cookie = ResponseCookie
-         .from(jwtCookie, null)
-         .path("/api")
-         .build();
-      return cookie;
+      return Jwts
+         .builder()
+         .setSubject(userPrincipal.getUsername())
+         .setIssuedAt(todayDate)
+         .setExpiration(expirationDate)
+         .signWith(getKey(), SignatureAlgorithm.HS256)
+         .compact();
+    }
+  
+   private Key getKey(){
+      return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
    }
 
    public String getUsernameFromJwtToken(String token){
@@ -68,10 +55,6 @@ public class JwtUtils {
          .parseClaimsJws(token)
          .getBody()
          .getSubject();
-   }
-
-   private Key getKey(){
-      return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
    }
 
    public boolean validateJwtToken(String authToken){
@@ -94,15 +77,4 @@ public class JwtUtils {
       return false;
    }
 
-   public String generateTokenFromUsername(String username){
-      Date todayDate = new Date();
-      Date expirationDate = new Date(todayDate.getTime() + jwtExpirationMs);
-      return Jwts
-         .builder()
-         .setSubject(username)
-         .setIssuedAt(todayDate)
-         .setExpiration(expirationDate)
-         .signWith(getKey(), SignatureAlgorithm.HS256)
-         .compact();
-   }
 }

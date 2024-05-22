@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 public class AuthTokenFilter extends OncePerRequestFilter{
@@ -68,9 +69,10 @@ public class AuthTokenFilter extends OncePerRequestFilter{
 
    // Dumbest use of a function I've seen here!
    private String parseJwt(HttpServletRequest request){
-
-      String jwt = jwtUtils.getJwtFromCookies(request);
-      return jwt;
+      String headerAuth = request.getHeader("Authorization");
+      if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer "))
+         return headerAuth.substring(7, headerAuth.length());
+      return null;
    }
 
 }
