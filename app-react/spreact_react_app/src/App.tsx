@@ -3,7 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import AuthService from "./services/auth.service";
+import * as AuthService from "./services/auth.service";
 
 import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
@@ -17,32 +17,28 @@ import BoardUser from "./components/BoardUser.jsx";
 
 // Removed this for now
 // TODO: Check it out https://www.bezkoder.com/handle-jwt-token-expiration-react/
-// import EventBus from "./common/EventBus";
+import EventBus from "./common/EventBus";
 
-const App = () => {
+const App: React.FC = () => {
    const [showModeratorBoard, setShowModeratorBoard] = useState(false);
    const [showAdminBoard, setShowAdminBoard] = useState(false);
-   const [currentUser, setCurrentUser] = useState(undefined);
+   const [username, setUsername] = useState(undefined);
 
    useEffect(
       () => {
-         const user = AuthService.getCurrentUser();
+         const user_dict = AuthService.getCurrentUser();
 
-         if (user) {
-            setCurrentUser(user);
-            setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-            setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+         if (user_dict) {
+            setUsername(user_dict.username);
+            setShowModeratorBoard(user_dict.roles.includes("ROLE_MODERATOR"));
+            setShowAdminBoard(user_dict.roles.includes("ROLE_ADMIN"));
          }
 
-         // // TODO: Check if the call below would work
-         // // EventBus.on("logout",logout)
-         // EventBus.on("logout", () => {
-         //    logOut();
-         // });
+         EventBus.on("logout", logOut);
 
-         // return () => {
-         //    EventBus.remove("logout");
-         // };
+         return () => {
+            EventBus.remove("logout", logOut);
+         };
       }, 
       []
    );
@@ -51,7 +47,7 @@ const App = () => {
       AuthService.logout();
       setShowModeratorBoard(false);
       setShowAdminBoard(false);
-      setCurrentUser(undefined);
+      setUsername(undefined);
    };
 
    return (
@@ -105,7 +101,7 @@ const App = () => {
 
                {
                   // TODO: A lot of repeated code with the above
-                  currentUser 
+                  username 
                   && (
                      <li className="nav-item">
                         <Link 
@@ -121,14 +117,14 @@ const App = () => {
 
             {
                // TODO: A lot of repeated code with the above
-               currentUser ? (
+               username ? (
                   <div className="navbar-nav ml-auto">
                      <li className="nav-item">
                         <Link 
                            to={"/profile"} 
                            className="nav-link"
                         >
-                           {currentUser.username}
+                           {username}
                         </Link>
                      </li>
                      <li className="nav-item">
@@ -167,12 +163,12 @@ const App = () => {
 
          <div className="container mt-3">
             <Routes>
-               <Route   exact path={"/"}        element={<Home />}            />
-               <Route   exact path={"/home"}    element={<Home />}            />
-               <Route   exact path="/login"     element={<Login />}           />
-               <Route   exact path="/register"  element={<Register />}        />
-               <Route   exact path="/profile"   element={<Profile />}         />
-               <Route         path="/user"      element={<BoardUser />}       />
+               <Route   path={"/"}        element={<Home />}            />
+               <Route   path={"/home"}    element={<Home />}            />
+               <Route   path="/login"     element={<Login />}           />
+               <Route   path="/register"  element={<Register />}        />
+               <Route   path="/profile"   element={<Profile />}         />
+               <Route   path="/user"      element={<BoardUser />}       />
                {/* <Route         path="/mod"       element={<BoardModerator />}  />
                <Route         path="/admin"     element={<BoardAdmin />}      /> */}
             </Routes>

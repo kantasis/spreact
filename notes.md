@@ -107,6 +107,9 @@ npm install react-router-dom
 npm install http-proxy-middleware
 # Library for form validation
 npm install react-validation validator
+npm install formik yup
+
+
 
 
 npm install react-auth-kit
@@ -753,4 +756,30 @@ npm install http-proxy-middleware
 
 
 ```
+
+
+```tsx
+
+   const user_json = localStorage.getItem("user");
+
+   let user_dict = null;
+   if (user_json)
+      user_dict = JSON.parse(user_json);
+
+getCurrentUser()
+{
+   "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZW9yZ2UiLCJpYXQiOjE3MTYzNzI1ODcsImV4cCI6MTcxNjQ1ODk4N30.k-Zp4Fnc7v3ZapVHAZO6gVeCx621fqO7YjdoSEO_yi4",
+   "type": "Bearer",
+   "id": 1,
+   "username": "george",
+   "email": "asdf@asdf.com",
+   "roles": [
+      "ROLE_USER"
+   ]
+}
+```
+
+
+
+
 

@@ -5,7 +5,7 @@ import axios from "axios";
 const API_URL = "http://localhost:8081/api/v1/auth/";
 
 // Register function
-const register = (username, email, password) => {
+export const register = (username: string, email: string, password: string) => {
    return axios
       .post(
          API_URL + "signup", 
@@ -18,7 +18,8 @@ const register = (username, email, password) => {
 };
 
 // Login function
-const login = (username, password) => {
+export const login = (username: string, password: string) => {
+   console.log("LOGGIN IN!");
    return axios
       .post(
          API_URL + "login", 
@@ -28,6 +29,7 @@ const login = (username, password) => {
          }
       )
       .then((response) => {
+         console.log(JSON.stringify(response,null,3) );
          if (response.data.username) {
             localStorage.setItem("user", JSON.stringify(response.data));
          }
@@ -36,7 +38,7 @@ const login = (username, password) => {
 };
  
 // Logout function logout
-const logout = () => {
+export const logout = () => {
    localStorage.removeItem("user");
    return axios
       .post(API_URL + "signout")
@@ -46,16 +48,10 @@ const logout = () => {
 };
 
 
-const getCurrentUser = () => {
-   return JSON.parse(localStorage.getItem("user"));
+export const getCurrentUser = () => {
+   const user_json = localStorage.getItem("user");
+   if (user_json) 
+      return JSON.parse(user_json);
+
+   return null;
 };
- 
-
-const AuthService = {
-   register,
-   login,
-   logout,
-   getCurrentUser,
-}
-
-export default AuthService;
